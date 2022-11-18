@@ -3,6 +3,7 @@ import "./App.css";
 import axios from 'axios';
 import { forecast } from './api';
 import Weather from './components/weather';
+import './App.css'
 function App() {
   const [value, setValue] = useState()
   const [data, setData] = useState()
@@ -16,13 +17,17 @@ function App() {
     })
   };
   return (
-    <div className="App">
-      <form onSubmit={handleSearch}>
+    <div className="App" id='app'>
+      <h1 className='appTitle'>
+        Weather App
+      </h1>
+      <form onSubmit={handleSearch} className="search__container">
         <input
           type="text"
           value={value}
           onChange={handleInputChange}
-          placeholder="e.g. Kathmandu"
+          placeholder="Search for location"
+          className="search__input"
         />
       </form>
       {data !== undefined ?

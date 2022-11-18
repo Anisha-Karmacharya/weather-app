@@ -1,5 +1,9 @@
 import React from "react";
 import moment from "moment/moment";
+import { BsSunFill } from "react-icons/bs";
+import { WiSunset } from "react-icons/wi";
+import { TiWeatherWindy } from "react-icons/ti";
+import { FaTemperatureHigh, FaTemperatureLow } from "react-icons/fa";
 const Weather = ({ weatherData }) => {
   const weekData = weatherData.list.map((data, index) => {
     return {
@@ -18,32 +22,96 @@ const Weather = ({ weatherData }) => {
       lTemp: data.temp.min,
     };
   });
-  console.log(weekData)
+  const icon = weatherData.list[0].weather[0].icon;
   return (
-    <div>
-      <p> city: {weatherData.city.name}</p>
-      <p>icon:{ weatherData.list[0].weather[0].icon}</p>
-      <p> country: {weatherData.city.country}</p>
-      <p> date : {moment().format("LL")}</p>
-      <p> desc: {weatherData.list[0].weather[0].description}</p>
-      <p> main: {weatherData.list[0].weather[0].main}</p>
-      <p> temp: {weatherData.list[0].temp.day}</p>
-      <p> highTemp:{weatherData.list[0].temp.max}</p>
-      <p> lowTemp:{weatherData.list[0].temp.min}</p>
-      <p>
-        {" "}
-        sunrise:{" "}
-        {new Date(weatherData.list[0].sunset * 1000).toLocaleTimeString()}
-      </p>
-      <p>
-        {" "}
-        sunset:{" "}
-        {new Date(weatherData.list[0].sunrise * 1000).toLocaleTimeString()}
-      </p>
-      <p> clouds: {weatherData.list[0].clouds}</p>
-      <p> humidity: {weatherData.list[0].humidity}</p>
-      <p> wind: {weatherData.list[0].speed}</p>
-      <p> pressure:{weatherData.list[0].pressure}</p>
+    <div className="weatherContainer">
+      <div className="weatherInformation">
+        {/* Country name , date and time */}
+        <div className="locationData">
+          <div>
+          <h1>
+            {weatherData.city.name} {weatherData.city.country}
+          </h1>
+          <p>{moment().format("LL")}</p>
+          <p>{moment().format("LT")}</p>
+          </div>
+          <div>
+
+          
+          <div className="todayTemp">
+            <div className="tempImg">
+            <img
+              src={`https://openweathermap.org/img/w/${icon}.png`}
+              alt={icon}
+            />
+             <p className="temp">{weatherData.list[0].temp.day}°C</p>
+            </div>
+            <div>
+             
+              <p> {weatherData.list[0].weather[0].main}</p>
+              <p> {weatherData.list[0].weather[0].description}</p>
+            </div>
+
+          </div>
+
+        </div>
+        </div>
+
+        {/* Sunrise and sunset */}
+        <div className="suninformation">
+          <>
+            <div>
+              <p>
+                <BsSunFill />
+              </p>
+              <p>
+                {new Date(
+                  weatherData.list[0].sunset * 1000
+                ).toLocaleTimeString().slice(0, 4)} AM
+              </p>
+            </div>
+
+            <div>
+              <p>
+                <WiSunset />
+              </p>
+              <p>
+                {new Date(
+                  weatherData.list[0].sunrise * 1000
+                ).toLocaleTimeString().slice(0, 4)} PM
+              </p>
+            </div>
+          </>
+
+          <div>
+            <FaTemperatureHigh />
+            <p> {weatherData.list[0].temp.max}°C</p>
+          </div>
+          <div>
+            <FaTemperatureLow /> <p> {weatherData.list[0].temp.min}°C</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+
+      </div>
+      <div className="extraInformation">
+        <div>
+          <h3>
+            Wind <TiWeatherWindy />
+          </h3>
+          <p> {weatherData.list[0].speed}</p>
+        </div>
+        <div>
+          <h3>Pressure</h3>
+          <p> {weatherData.list[0].pressure}</p>
+        </div>
+        <div>
+          <h3>Humidity</h3>
+          <p> {weatherData.list[0].humidity}</p>
+        </div>
+      </div>
     </div>
   );
 };
